@@ -1,17 +1,20 @@
 import { useContext, useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import AuthContext from '../../store/auth-context';
 
 import classes from './AuthForm.module.css';
 
-const AuthForm = () => {
-  const firebase = process.env.REACT_APP_FIREBASE;
-  const [isLogin, setIsLogin] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+const firebase = process.env.REACT_APP_FIREBASE;
 
+const AuthForm = () => {
+  const history = useHistory();
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
 
   const authCtx = useContext(AuthContext);
+
+  const [isLogin, setIsLogin] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const switchAuthModeHandler = () => {
     setIsLogin(prevState => !prevState);
@@ -49,6 +52,7 @@ const AuthForm = () => {
         } else {
           return res.json().then(data => {
             let errorMessage = 'Authentication failed';
+            console.log(data);
             // if (data && data.error && data.error.message) {
             //   errorMessage = data.error.message;
             // }
@@ -59,11 +63,15 @@ const AuthForm = () => {
       })
       .then(data => {
         authCtx.login(data.idToken);
+        history.replace('/');
       })
       .catch(err => {
         alert(err.message);
       });
   };
+
+  // one@test.com
+  // 1234567
 
   return (
     <section className={classes.auth}>
