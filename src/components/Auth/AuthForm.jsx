@@ -70,9 +70,6 @@ const AuthForm = () => {
       });
   };
 
-  // one@test.com
-  // 1234567
-
   return (
     <section className={classes.auth}>
       <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
